@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Expires" content="Tue, 01 Jan 1995 12:12:12 GMT">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="LocalReplay" />
+    <meta name="application-name" content="LocalReplay" />
+    <meta name="msapplication-starturl" content="/" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content="<?php echo $identifier_season_title; ?> - LocalReplay" />
+    <meta property="og:image" content="" />
+    <meta property="og:description" content="" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="description" content="" />
+    <meta name="theme-color" content="#191919" />
+    
+    <title><?php echo $identifier_season_title; ?> - LocalReplay</title>
+
+    <link rel="icon" href="assets/icon.png" />
+    <link rel="apple-touch-icon" href="assets/icon.png" />
+    <link rel="manifest" href="assets/s/manifest.json" />
+    <link rel="stylesheet" href="assets/plyr.css" />
+    <link rel="stylesheet" href="assets/fonts.min.css" />
+    <link rel="stylesheet" href="assets/player.css" />
+    <link rel="stylesheet" type="text/css" href="assets/style.minabec.css?m12" />
+
+    <script src="assets/lib/jquery.min.js" defer></script>
+    <script src="assets/axios.min.js"></script>
+    <script src="assets/main.js?v=222" defer=""></script>
+    <script src="assets/common.min.js" defer=""></script>
+    <script src="assets/v1.min.js" defer=""></script>
+    <script src="assets/player.js" defer=""></script>
+    <script src="assets/plyr.min.js"></script>
+    <script src="assets/hls.js"></script>
+  </head>
+
+  <body>
+    <div id="coverlight" style="z-index: 8; display: none; opacity: 1;  transition: opacity 0.5s ease 0s;"></div>
+    <div id="loadcontainer">
+      <div class="loadindicator"></div>
+    </div>
+    <div class="toppart" style="position: relative; z-index: 1;">
+      <div id="playertopmenu" class="floattopsearch">
+        <a id="backicon" onclick="window.history.back()">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+        </a>
+        <a id="homeicon" href="index.html">
+            <i class="glyphicon glyphicon-home"></i>
+        </a>
+        <div id="searchbox">
+          <input type="text" style="display:none" />
+          <input type="password" style="display:none" />
+          <a href="index.html">
+            <img class="webtitle" alt="LocalReplay"src="assets/logo.webp"/>
+          </a>
+          <input
+            class="form-control searchbar"
+            pattern=".{3,}"
+            placeholder="Search"
+            id="q"
+            type="search"
+            autocomplete="off"
+            onfocus="searchfocused()"
+            onblur="searchblur()"
+            onfocusout="searchUnfocus()"
+          />
+          <button id="searchbutton" onclick="dosearchfromplayer()">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+          <a class="topmenubtn" title="Random anime" href="random.html">
+            <i class="glyphicon glyphicon-random"></i>
+            Random
+          </a>
+          <a class="topmenubtn" title="A-Z List" href="list.html">A-Z List</a>
+        </div>
+        <span id="usernametop"></span>
+        <button id="menumobilebtn2" OnClick="showmobilemenu()">
+          <i class="glyphicon glyphicon-menu-hamburger"></i>
+        </button>
+        <button id="showsearchbtn" OnClick="togglesearch()">
+          <i class="glyphicon glyphicon-search"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="quicksearchcontainer" style="display: none;">
+    <div class="resultcontainer">
+      <div id="fullresultbtn">
+        <a onClick="searchfull()">Full</a><a onClick="searchE1()">GOGO</a><a onClick="searchE11()">AL</a><a onClick="searchE6()">RUSH</a><a onClick="searchMAL()">MAL</a>
+      </div>
+	  
+	  
+      <ul id="search-results" class="quickresult">
+          <!-- Results in here -->
+        </ul>
+	  
+	  
+    </div>
+  </div>
+    <div id="tips"></div>
+    <div id="topmid"></div>
+    <div class="playersidebar"></div>
+
+    <div id="playerleftsidebar">
+      <button id="recomendedclosebtn" onclick="hiderecomendmenu();">
+        <i class="glyphicon glyphicon-arrow-left"></i>
+      </button>
+      <div id="moreinfobtn" onclick="editStreams()"><a>Problem ?</a></div>
+      <div id="recomendedlist">
+        <div class="recomendedtitle">ADN</div>
+        <div class="reclistcontainer">
+          <a href="/#" title="#(Dub)">
+            <div>
+              <div class="recflexlist">
+                <div class="imguserlist">
+                  <img class="imgusr" src="https://cdn.Localplay.to/i/662ca18de093a67899875183434bdcb5.jpg"/>
+                </div>
+                <div class="detailuserlist" style="cursor:pointer">
+                  <p class="reclisttitle">
+                    <span class="dubtag">[Dub]</span> #
+                  </p>
+                  <p class="watchprogress">#</p>
+                  <p class="listviewcount">#</p>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" title="Chainsaw Man">
+            <div onclick="showrecomendmenu();" style="border-left:3px solid #5baaff;padding-left:7px;margin-left:-10px;">
+              <div class="recflexlist">
+                <div class="imguserlist">
+                  <img class="imgusr" src="https://cdn.Localplay.to/min/mal/1806/126216.jpg" />
+                </div>
+                <div class="detailuserlist" style="cursor:pointer">
+                  <p class="reclisttitle">#</p>
+                  <p class="watchprogress">#</p>
+                  <p class="listviewcount">#</p>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="recomendedtitle" style="opacity:0.5">Neko-Sama</div>
+        <div class="reclistcontainer" style="opacity:0.5">
+          <a href="#" title="#">
+            <div>
+              <div class="recflexlist">
+                <div class="imguserlist">
+                  <img class="imgusr" src="https://cdn.Localplay.to/i/662ca18de093a67899875183434bdcb5.jpg" />
+                </div>
+                <div class="detailuserlist" style="cursor:pointer">
+                  <p class="reclisttitle">#</p>
+                  <p class="watchprogress">#</p>
+                  <p class="listviewcount">#</p>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" title="Chainsaw Man (Dub)">
+            <div>
+              <div class="recflexlist">
+                <div class="imguserlist">
+                  <img class="imgusr" src="https://cdn.Localplay.to/i/662ca18de093a67899875183434bdcb5.jpg" />
+                </div>
+                <div class="detailuserlist" style="cursor:pointer">
+                  <p class="reclisttitle"><span class="dubtag">[Dub]</span>#</p>
+                  <p class="watchprogress">#</p>
+                  <p class="listviewcount">#</p>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="recomendedtitle" style="opacity:0.5">CrunchyRoll</div>
+        <div class="reclistcontainer" style="opacity:0.5">
+          <a href="#" title="#">
+            <div>
+              <div class="recflexlist">
+                <div class="imguserlist">
+                  <img class="imgusr" src="https://cdn.Localplay.to/i/662ca18de093a67899875183434bdcb5.jpg" />
+                </div>
+                <div class="detailuserlist" style="cursor:pointer">
+                  <p class="reclisttitle">#</p>
+                  <p class="watchprogress">#</p>
+                  <p class="listviewcount">#</p>
+                </div>
+              </div>
+            </div>
+        </a>
+    </div>
+        <div id="extracontainer">
+          <button id="showExternalBtn" onclick="showExternal()">
+            <i class="glyphicon glyphicon-menu-down"></i> External Websites
+          </button>
+          <div id="loadStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="playerpage">
+      <div class="subpart eptitle">
+        <div id="eptitle">
+          <span id="eptitleplace">
+          </span>
+          <span class="altsourcenotif">Internal Player</span>
+        </div>
+        <div id="toprightplayer">
+          <i onClick="switchToLive();" class="proxybtn glyphicon glyphicon glyphicon-transfer">
+            <span class="tooltiptext">Switch</span>
+          </i>
+          <i onClick="lighttoggle();" class="lightbtn glyphicon glyphicon-sunglasses">
+            <span class="tooltiptext">Lights</span>
+          </i>
+          <i onClick="download();" class="dlbutton glyphicon glyphicon-download-alt">
+            <span class="tooltiptext">Download</span>
+          </i>
+          <i onClick="toggleautoplay();" class="autoplaybutton glyphicon glyphicon-flash">
+            <span class="tooltiptext">Autoplay</span>
+          </i>
+          <i id="nextbtn" class="glyphicon glyphicon-forward">
+            <span class="tooltiptext">Next ep</span>
+          </i>
+        </div>
+      </div>
+      <div id="loadcontainer2" style="display:none;overflow:hidden">
+        <div class="loadindicator"></div>
+      </div>
+      <div id="iframecontainer">
+        <div class="container">
+          <video id="VIDEOA" controls playsinline poster="">
+            <source type="application/x-mpegURL" src="" />
+          </video>
+        </div>
+      </div>
+      <select id="srcselect" onchange="srcChange()"></select>
+      <div id="lowerplayerpage">
+        <div id="aligncenter">
+          <div id="streamtypecontainer">
+            <div id="streamtype">
+              GOGO Stream
+            </div>
+            <div id="showrecomendbtn" onClick="showrecomendmenu();" style="display: inline-block;">
+              <i class="glyphicon glyphicon-cog"></i>
+              <span id="changetext">Change</span>
+            </div>
+            <div id="showrecomendbtn" onClick="showrecomendmenu();" style="display: inline-block;">
+              <i class="glyphicon glyphicon-cog"></i>
+              <span id="changetext">Change Proxy</span>
+            </div>
+            <div id="sharebtn" style="display: none;">
+              <i class="glyphicon glyphicon-share-alt"></i>
+              <span id="shareText">Share</span>
+            </div>
+            <div id="reloadbtn" class="js-reload" style="display: block;">
+              <i class="glyphicon glyphicon-repeat"></i>
+              <span class="reportText">Reload</span>
+            </div>
+            <div id="widescreenbtn">
+              <i class="glyphicon glyphicon-fullscreen js-fullscreen"></i>
+            </div>
+          </div>
+
+          <a id="animebtn" style="display: inline;" href="">
+            <svg
+              stroke="currentColor"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              height="25"
+              width="25"
+              id="foldersvg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z">
+            </path>
+            </svg>
+          </a>
+          <span class="animetitle" id="animetitle"></span>
+          <button id="trackbtn" onclick="startTrack();">
+            <i class="glyphicon glyphicon-plus">
+            </i> Watchlist
+          </button>
+          <button id="followbtn" onclick="followtoggle();">
+            <i class="glyphicon glyphicon-bell">
+            </i> Follow
+          </button>
+          <br />
+          <div id="animeimage"></div>
+          <span id="notice" style="display: none;">
+            <br />
+            <br />
+            <br />
+            Try clear cache & make sure your browser
+            extension not block javascript
+            <br />
+            <br />
+            <br/>
+          </span>
+        </div>
+        <div id="epslistplace" style="display: grid;">
+        <?php
+        echo $generated_episodes_html;
+        ?>
+        </div>
+        <div id="flexbottom" style="display: flex;">
+          <div id="bottomleft">
+            <span id="genres">Genres :
+              <span id="genredata">
+                
+              </span>
+            </span>
+            <br />
+            <span id="status">Status :
+              <span id="statusdata">
+              </span>
+            </span>
+            <span id="animeinfobottom" style="display: block;">
+                <a id="animebtn2" href="<?php echo "https://Localreplay.to/anime/" . $mal['id']; ?>">More info </a>
+            </span>
+          </div>
+          <div class="epsavailable">
+            Ep total :
+            <span id="epsavailable">
+            </span>
+            <a onClick="updatecheck()" id="updatebtn">
+                <i class="glyphicon glyphicon-refresh">
+                </i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="flexstreambottom">
+      <div style="flex:1">
+        <div id="disquscommentnew">
+          <button id="showcommentbtn" OnClick="showcomment()">
+            Show Comments
+          </button>
+          <div id="disqus_thread"></div>
+        </div>
+        <div id="belowcomment"></div>
+      </div>
+      <div id="streambottomright"></div>
+    </div>
+    <div id="belowbox"></div>
+    <div id="notifiaction">Test</div>
+    <script>
+const defaultOptions = {};
+defaultOptions.controls = [
+	'play-large',
+	'play',
+	'fast-forward',
+	'progress',
+	'current-time',
+	'duration',
+	'mute',
+	'volume',
+	'settings',
+	'pip',
+	'fullscreen'
+];
+
+defaultOptions.settings = [
+	'captions',
+	'quality',
+	'speed',
+	'loop'
+];
+
+defaultOptions.tooltips = {
+	controls: true,
+	seek : true
+};
+
+defaultOptions.keyboard = {
+	global: true
+};
+
+defaultOptions.storage = {
+	enabled: false,
+	key: 'plyr'
+};
+
+defaultOptions.captions = {
+	active: true,
+	language: '<?php echo $selsub; ?>',
+	update: true
+};
+
+defaultOptions.quality = {
+	/*default: parseInt(getCookie("preferred_quality")),*/
+	options: [],
+	forced: true,
+	onChange: (e) => updateQuality(e),
+};
+
+defaultOptions.i18n = {
+	captions: 'Source',
+	play : "Play (K)",
+	pause : "Pause (K)",
+	mute : "Mute (M)",
+	unmute : "Unmute (M)",
+	enterFullscreen : "Enter fullscreen (F)",
+	exitFullscreen : "Exit fullscreen (F)",
+	qualityLabel : {
+		0 : "Auto"
+	}
+};
+
+defaultOptions.seekTime = 5;
+
+defaultOptions.fullscreen = {
+	iosNative : true
+};
+const urlParams = new URLSearchParams(window.location.search);
+const identifier_slugtitle = urlParams.get('name');
+let identifier_episode = urlParams.get('ep');
+
+
+
+fetch(`https://api.consumet.org/anime/gogoanime/info/${identifier_slugtitle}`)
+  .then(response => response.json())
+  .then(result => {
+    const identifier_season_title = result['title'];
+    const identifier_streamid = identifier_slugtitle;
+
+    console.log(identifier_season_title)
+    document.getElementById("animetitle").textContent = identifier_season_title;
+
+    let name = identifier_streamid;
+    if (name.includes("//category/")) {
+        name = name.split("//category/")[1];
+    }
+
+	let episode_count = 1;
+	let generated_episodes_html = "";
+
+	let episode_list = [];
+	let identifier_episode_current = "0";
+
+	if (result['episodes'] === null) {
+		console.log(identifier_streamid);
+	}
+
+	if (!result['episodes'][identifier_episode]) {
+		identifier_episode = (result['episodes'].length);
+	}
+
+	document.getElementById("epsavailable").textContent = result['episodes'].length;
+	result['episodes'].forEach(episode => {
+		console.log(episode.number, identifier_episode)
+		if (episode.number === parseInt(identifier_episode)) {
+			let paramurl = `v2.html?name=${identifier_slugtitle}&ep=${episode_count}`;
+			generated_episodes_html += `<a class="playbutton btn btn-primary no-click" disabled href="${paramurl}">${episode_count} </a>`; 
+			identifier_episode_current = episode_count;
+			document.getElementById("eptitleplace").textContent = "EP " + identifier_episode_current;
+			document.getElementById("nextbtn").setAttribute('onclick',`window.location = "v2.html?name=${identifier_slugtitle}&ep=${identifier_episode_current + 1}"`)
+		} else {
+			let paramurl = `v2.html?name=${identifier_slugtitle}&ep=${episode_count}`;
+			generated_episodes_html += `<a class="playbutton btn btn-primary" href="${paramurl}">${episode_count} </a>`; 
+		}
+		episode_count += 1;
+	});
+	document.getElementById("epslistplace").innerHTML = generated_episodes_html;
+	console.log(generated_episodes_html);
+
+
+	let id = "";
+	if (!result.episodes[parseInt(identifier_episode_current) - 1]) {
+		id = result.episodes[result.episodes.length - 1].id;
+	} else {
+		id = result.episodes[parseInt(identifier_episode_current) - 1].id;
+	}
+
+	fetch('https://api.consumet.org/anime/gogoanime/watch/' + id)
+		.then(response => response.json())
+		.then(result => {
+			let streamString = '[[{"file": "&url", "label": "1080 P", "type": "hls"}, {"tracks": [{"file": "https://cache.anicdn.stream/images/e10d3f220994bc3d89cd32764cdbf612/10.vtt", "kind": "thumbnails"}]}, ["&link"]]]';
+			result.sources.forEach((streamNumber) => {
+				if (streamNumber.quality === "default") {
+					//streamString = streamString.replace("&url", streamNumber.url);
+					const video = document.querySelector('video');
+					//video.src = streamNumber.url;
+					console.log(streamNumber.url)
+
+					const player = new Plyr(video, defaultOptions);
+					
+					// For more Hls.js options, see https://github.com/dailymotion/hls.js
+					const hls = new Hls();
+					hls.loadSource(streamNumber.url);
+					hls.attachMedia(video);
+					window.hls = hls;
+					
+					// Handle changing captions
+					player.on('languagechange', () => {
+						// Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
+						setTimeout(() => hls.subtitleTrack = player.currentTrack, 50);
+					});
+				}
+			});
+		}
+	);
+});
+
+async function fetchAnimeById(id) {
+  try {
+    const response = await fetch(`https://api.jikan.moe/v4/anime/${id}`);
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+fetchAnimeById(21).then(data => {
+  console.log(JSON.stringify(data));
+  document.getElementById("statusdata").textContent = data['status']
+
+  let genres = data.genres.map(genre => genre.name).join(', ');
+  let themes = data.themes.map(theme => theme.name).join(', ');
+  let combined = (genres + ', ' + themes).slice(0, -2);
+
+  if(genres != ""){
+	document.getElementById("genredata").textContent = genres;
+  }
+
+  if(themes != ""){
+	if(genres != ""){
+		document.getElementById("genredata").textContent += ", " + themes;
+	} else {
+		document.getElementById("genredata").textContent += themes;
+	}
+  }
+  //document.getElementById("genredata").textContent = combined
+
+  document.querySelector('meta[property="og:image"]').content = data.images.webp.large_image_url;
+  document.querySelector('meta[property="og:description"]').content = data.synopsis;
+  document.querySelector('meta[name="description"]').content = data.synopsis;
+});
+
+	/*var malid = "<?php echo $mal['id']; ?>"
+	var season_title = "<?php echo $identifier_season_title; ?>"
+	var episode_current = "<?php echo $identifier_episode_current; ?>"*/
+
+    </script>
+  </body>
+</html>

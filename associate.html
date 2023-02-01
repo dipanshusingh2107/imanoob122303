@@ -1,0 +1,76 @@
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const url = 'https://corsproxy.io/?' + encodeURIComponent(`https://api.malsync.moe/mal/anime/${id}/`);
+
+    fetch(url)
+    .then(response => response.json())
+    .then(json => {
+        console.log(json.Sites.Gogoanime);
+        if (json.Sites.Gogoanime) {
+            const dub = urlParams.get('dub');
+            if (dub) {
+                /*
+                for (const series of json.Sites.Gogoanime) {
+                    if (series.identifier.includes("dub")) {
+                        const ep = urlParams.get('ep');
+                        if (ep) {
+                            window.location.href = `v2/${series.identifier}/ep${ep}`;
+                            break;
+                        } else {
+                            window.location.href = `v2/${series.identifier}/ep1`;
+                            break;
+                        }
+                    }
+                }
+
+                if (!ep) {
+                    const fallback = urlParams.get('fallback');
+                    if (fallback) {
+                        if (ep) {
+                            window.location.href = `v2/${fallback}/ep${ep}`;
+                        } else {
+                            window.location.href = `v2/${fallback}/ep1`;
+                        }
+                    }
+                }*/
+                const fallback = urlParams.get('fallback');
+                if (fallback) {
+                    const ep = urlParams.get('ep');
+                    if (ep) {
+                        window.location.href = `v2.html?name=${fallback}&ep=ep${ep}`;
+                    } else {
+                        window.location.href = `v2.html?name=${fallback}&ep=ep1`;
+                    }
+                }
+            } else {
+                if (Array.isArray(json.Sites.Gogoanime)) {
+                    for (const series of json.Sites.Gogoanime) {
+                        if (!series.identifier.includes("dub")) {
+                            const ep = urlParams.get('ep');
+                            if (ep) {
+                                window.location.href = `v2/${series.identifier}/ep${ep}`;
+                                break;
+                            } else {
+                                window.location.href = `v2/${series.identifier}/ep1`;
+                                break;
+                            }
+                        }
+                    }
+
+                } else {
+                    const fallback = urlParams.get('fallback');
+                    if (fallback) {
+                        const ep = urlParams.get('ep');
+                        if (ep) {
+                            window.location.href = `v2.html?name=${fallback}&ep=ep${ep}`;
+                        } else {
+                            window.location.href = `v2.html?name=${fallback}&ep=ep1`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+</script>
